@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
@@ -27,10 +28,19 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 savePlayer1(inputPlayer1.getText().toString());
                 savePlayer2(inputPlayer2.getText().toString());
+
+
+                Intent change = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(change);
             }
         });
     }
 
+
+    public void onButtonClick(View button) {
+        Intent change = new Intent(this, SettingsActivity.class);
+        startActivity(change);
+    }
 
     // Diese 2 speichern Namen in den SharedPreferences für Player1 und Player2
     public void savePlayer1(String name){

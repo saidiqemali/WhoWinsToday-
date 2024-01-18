@@ -44,6 +44,12 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
+    private void updatePlayerPoints(TextView playerPointsTextView, int randomNum) {
+        int inputValue = Integer.parseInt(playerPointsTextView.getText().toString());
+        int calcPoints = inputValue + randomNum;
+        playerPointsTextView.setText(String.valueOf(calcPoints));
+    }
+
     public String getSpieler1() {
         SharedPreferences sharedPreferences = getSharedPreferences("Speicher", MODE_PRIVATE);
         String player1 = sharedPreferences.getString("spieler1", null);
