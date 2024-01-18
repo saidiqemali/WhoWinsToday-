@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
 import android.content.SharedPreferences;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -14,6 +16,9 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView player2points;
     private TextView isShaking;
     private boolean isPlayer1Turn = true;
+    private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
+    private TextView currentPlayer;
 
 
 
@@ -30,6 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         inputPlayer1.setText(getSpieler1());
         inputPlayer2.setText(getSpieler2());
+
     }
 
 
