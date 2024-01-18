@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -35,6 +36,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         inputPlayer1.setText(getSpieler1());
         inputPlayer2.setText(getSpieler2());
+        currentPlayer.setText(getSpieler1());
+
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE); // Sensorenverwaltung
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER); // Beschleunigungssensor abgerufen
 
     }
 
