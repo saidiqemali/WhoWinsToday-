@@ -12,7 +12,8 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView inputPlayer2;
     private TextView player1points;
     private TextView player2points;
-
+    private TextView isShaking;
+    private boolean isPlayer1Turn = true;
 
 
 
@@ -25,7 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
         inputPlayer2 = findViewById(R.id.player2Game);
         player1points = findViewById(R.id.player1points);
         player2points = findViewById(R.id.player2points);
-
+        isShaking = findViewById(R.id.isShaking);
 
         inputPlayer1.setText(getSpieler1());
         inputPlayer2.setText(getSpieler2());
