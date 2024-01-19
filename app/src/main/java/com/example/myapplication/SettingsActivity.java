@@ -61,16 +61,15 @@ public class SettingsActivity extends AppCompatActivity implements SensorEventLi
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        updateUI();
+        updateDatas();
     }
 
-    private void updateUI() {
+    private void updateDatas() {
         player1GameTextView.setText(player1Name);
         player2GameTextView.setText(player2Name);
         player1PointsTextView.setText(String.valueOf(player1Points));
         player2PointsTextView.setText(String.valueOf(player2Points));
-        currentPlayerTextView.setText(player1Name);
-        isShakingTextView.setText("Not Shaking");
+        isShakingTextView.setText(isShaking ? "Shaking" : "Not Shaking");
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
@@ -95,12 +94,14 @@ public class SettingsActivity extends AppCompatActivity implements SensorEventLi
             double acceleration = Math.sqrt(x * x + y * y + z * z);
             if (acceleration > 15) {
                 hasShaken = true;
+                isShaking = true; // bool that looks if phone is shaking for later for the vibration
                 generateRandomNumbers();
-                updateUI();
+                updateDatas();
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        isShaking = true; // bool that looks phone is shaking to stop vibration
                         goToFinalActivity();
                         hasShaken = false;
                     }

@@ -75,10 +75,9 @@
         app:layout_constraintHorizontal_bias="0.5" />
 
     <TextView
-        android:id="@+id/currentPlayer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Player"
+        android:text="Shake Your Phone"
         android:textColor="#000000"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
