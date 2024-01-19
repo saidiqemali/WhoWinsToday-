@@ -1,59 +1,43 @@
-package com.example.myapplication;
+package com.example.myapplication;// MainActivity.java
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.widget.Button;
-import android.view.View;
-import android.widget.EditText;
+import com.example.myapplication.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText inputPlayer1;
-    private EditText inputPlayer2;
-    private Button shakeButton;
-
+    private EditText player1EditText;
+    private EditText player2EditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        inputPlayer1 = findViewById(R.id.player1);
-        inputPlayer2 = findViewById(R.id.player2);
-        shakeButton = findViewById(R.id.shakeButton);
 
-        shakeButton.setOnClickListener(new View.OnClickListener() { // Namen der Spieler in SharedPreferences speichern.
+        player1EditText = findViewById(R.id.player1);
+        player2EditText = findViewById(R.id.player2);
+
+        Button shakeButton = findViewById(R.id.shakeButton);
+        shakeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View view) {
-                savePlayer1(inputPlayer1.getText().toString());
-                savePlayer2(inputPlayer2.getText().toString());
-
-
-                Intent change = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(change);
+                startSettingsActivity();
             }
         });
     }
 
+    private void startSettingsActivity() {
+        String player1Name = player1EditText.getText().toString();
+        String player2Name = player2EditText.getText().toString();
 
-    public void onButtonClick(View button) {
-        Intent change = new Intent(this, SettingsActivity.class);
-        startActivity(change);
-    }
-
-    // Diese 2 speichern Namen in den SharedPreferences für Player1 und Player2
-    public void savePlayer1(String name){
-        SharedPreferences sharedPreferences = getSharedPreferences("Speicher", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("Player 1", name);
-        editor.apply();
-    }
-
-    public void savePlayer2(String name){
-        SharedPreferences sharedPreferences = getSharedPreferences("Speicher", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("Player 2", name);
-        editor.apply();
+        Intent intent = new Intent(this, SettingsActivity.class);
+        intent.putExtra("player1Name", player1Name);
+        intent.putExtra("player2Name", player2Name);
+        startActivity(intent);
     }
 }

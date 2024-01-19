@@ -1,79 +1,102 @@
 package com.example.myapplication;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class SettingsActivity extends AppCompatActivity {
+import java.util.Random;
 
-    private TextView inputPlayer1;
-    private TextView inputPlayer2;
-    private TextView player1points;
-    private TextView player2points;
-    private TextView isShaking;
-    private boolean isPlayer1Turn = true;
-    private SensorManager mSensorManager;
-    private Sensor mAccelerometer;
-    private TextView currentPlayer;
+public class SettingsActivity extends AppCompatActivity implements SensorEventListener {
 
+    private String player1Name;
+    private String player2Name;
 
+    private TextView player1GameTextView;
+    private TextView player2GameTextView;
+    private TextView player1PointsTextView;
+    private TextView player2PointsTextView;
+    private TextView randomNumberTextView;
+    private TextView currentPlayerTextView;
+    private TextView isShakingTextView;
+
+    private int player1Points = 0;
+    private int player2Points = 0;
+    private int randomNumber1 = 0;
+    private int randomNumber2 = 0;
+
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
+
+    private boolean isShaking = false;
+    private int shakeCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        inputPlayer1 = findViewById(R.id.player1Game);
-        inputPlayer2 = findViewById(R.id.player2Game);
-        player1points = findViewById(R.id.player1points);
-        player2points = findViewById(R.id.player2points);
-        isShaking = findViewById(R.id.isShaking);
+        Intent intent = getIntent();
+        player1Name = intent.getStringExtra("player1Name");
+        player2Name = intent.getStringExtra("player2Name");
 
-        inputPlayer1.setText(getSpieler1());
-        inputPlayer2.setText(getSpieler2());
-        currentPlayer.setText(getSpieler1());
+        player1GameTextView = findViewById(R.id.player1Game);
+        player2GameTextView = findViewById(R.id.player2Game);
+        player1PointsTextView = findViewById(R.id.player1Points);
+        player2PointsTextView = findViewById(R.id.player2Points);
+        randomNumberTextView = findViewById(R.id.randomNumber);
+        currentPlayerTextView = findViewById(R.id.currentPlayer);
+        isShakingTextView = findViewById(R.id.isShaking);
 
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE); // Sensorenverwaltung
-        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER); // Beschleunigungssensor abgerufen
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
+        updateUI();
     }
 
-
-    private void updatePlayerPoints(TextView playerPointsTextView, int randomNum) {
-        int inputValue = Integer.parseInt(playerPointsTextView.getText().toString());
-        int calcPoints = inputValue + randomNum;
-        playerPointsTextView.setText(String.valueOf(calcPoints));
+    private void updateUI() {
+        player1GameTextView.setText(player1Name);
+        player2GameTextView.setText(player2Name);
+        player1PointsTextView.setText(String.valueOf(player1Points));
+        player2PointsTextView.setText(String.valueOf(player2Points));
+        currentPlayerTextView.setText(player1Name);
+        isShakingTextView.setText("Not Shaking");
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
-    public String getSpieler1() {
-        SharedPreferences sharedPreferences = getSharedPreferences("Speicher", MODE_PRIVATE);
-        String player1 = sharedPreferences.getString("spieler1", null);
-        return player1;
+    private void generateRandomNumbers() {
+        Random random = new Random();
+        randomNumber1 = random.nextInt(10) + 1;
+        randomNumber2 = random.nextInt(10) + 1;
+        player1PointsTextView.setText(String.valueOf(randomNumber1));
+        player2PointsTextView.setText(String.valueOf(randomNumber2));
+        randomNumberTextView.setText(String.valueOf(randomNumber1 + " - " + randomNumber2));
     }
 
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        float x = event.values[0];
+        float y = event.values[1];
+        float z = event.values[2];
 
-    public String getSpieler2() {
-        SharedPreferences sharedPreferences = getSharedPreferences("Speicher", MODE_PRIVATE);
-        String player2 = sharedPreferences.getString("spieler2", null);
-        return player2;
+        double acceleration = Math.sqrt(x * x + y * y + z * z);
+        if (acceleration > 15) {
+            generateRandomNumbers();
+            updateUI();
+        }
     }
 
-    public void savePlayer1Points(int amount) {
-        SharedPreferences sharedPreferences = getSharedPreferences("Speicher", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("player1points", amount);
-        editor.apply();
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 
-    public void savePlayer2Points(int amount) {
-        SharedPreferences sharedPreferences = getSharedPreferences("Speicher", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("player2points", amount);
-        editor.apply();
-    }
 }
