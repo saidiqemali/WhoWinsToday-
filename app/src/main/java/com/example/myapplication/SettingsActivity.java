@@ -67,8 +67,8 @@ public class SettingsActivity extends AppCompatActivity implements SensorEventLi
     private void updateDatas() {
         player1GameTextView.setText(player1Name);
         player2GameTextView.setText(player2Name);
-        player1PointsTextView.setText(String.valueOf(player1Points));
-        player2PointsTextView.setText(String.valueOf(player2Points));
+        player1PointsTextView.setText(String.valueOf(randomNumber1));
+        player2PointsTextView.setText(String.valueOf(randomNumber2));
         isShakingTextView.setText(isShaking ? "Shaking" : "Not Shaking");
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
@@ -77,8 +77,6 @@ public class SettingsActivity extends AppCompatActivity implements SensorEventLi
         Random random = new Random();
         randomNumber1 = random.nextInt(10) + 1;
         randomNumber2 = random.nextInt(10) + 1;
-        player1PointsTextView.setText(String.valueOf(randomNumber1));
-        player2PointsTextView.setText(String.valueOf(randomNumber2));
         randomNumberTextView.setText(String.valueOf(randomNumber1 + " - " + randomNumber2));
     }
 
@@ -120,7 +118,6 @@ public class SettingsActivity extends AppCompatActivity implements SensorEventLi
             }
         }
     }
-
 
     private void goToFinalActivity() {
         Intent intent = new Intent(this, FinalActivity.class);
