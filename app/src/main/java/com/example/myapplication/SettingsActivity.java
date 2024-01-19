@@ -87,7 +87,6 @@ public class SettingsActivity extends AppCompatActivity implements SensorEventLi
             float y = event.values[1];
             float z = event.values[2];
             double acceleration = Math.sqrt(x * x + y * y + z * z);
-
             if (acceleration > 30) {
                 hasShaken = true;
                 isShaking = true; // bool that looks if phone is shaking for later for the vibration
