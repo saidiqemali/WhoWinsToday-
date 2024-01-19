@@ -115,7 +115,7 @@ public class SettingsActivity extends AppCompatActivity implements SensorEventLi
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         vibrator.vibrate(VibrationEffect.createWaveform(timings, amplitudes, repeatIndex));
                     }
-
+                        // Code von : https://developer.android.com/develop/ui/views/haptics/actuators#java
                 }
             }
         }
