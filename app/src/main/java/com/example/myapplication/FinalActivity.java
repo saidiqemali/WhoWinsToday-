@@ -11,5 +11,8 @@ public class FinalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final);
 
+        String winner = getIntent().getStringExtra("Winner-Loser");
+        TextView winnerTextView = findViewById(R.id.winnerTextView);
+        winnerTextView.setText("Winner: " + winner);
     }
 }

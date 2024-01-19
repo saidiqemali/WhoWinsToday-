@@ -22,7 +22,6 @@ public class SettingsActivity extends AppCompatActivity implements SensorEventLi
 
     private String player1Name;
     private String player2Name;
-
     private TextView player1GameTextView;
     private TextView player2GameTextView;
     private TextView player1PointsTextView;
