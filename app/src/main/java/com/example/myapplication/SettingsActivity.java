@@ -7,6 +7,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
@@ -88,11 +89,26 @@ public class SettingsActivity extends AppCompatActivity implements SensorEventLi
         float y = event.values[1];
         float z = event.values[2];
 
+        boolean hasShaken = false;
+
         double acceleration = Math.sqrt(x * x + y * y + z * z);
         if (acceleration > 15) {
+            hasShaken = true;
             generateRandomNumbers();
             updateUI();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    goToFinalActivity();
+                }
+            }, 3000);
         }
+    }
+
+    private void goToFinalActivity() {
+        Intent intent = new Intent(this, FinalActivity.class);
+        startActivity(intent);
     }
 
     @Override
