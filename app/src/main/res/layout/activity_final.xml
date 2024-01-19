@@ -13,10 +13,10 @@
         android:id="@+id/winnerTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:text="Winner: Player 1"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_centerInParent="true" />
+        android:textStyle="bold" />
 
     <!-- Weitere UI-Elemente können nach Bedarf hinzugefügt werden -->
 

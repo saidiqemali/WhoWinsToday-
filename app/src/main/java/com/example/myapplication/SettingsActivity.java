@@ -115,8 +115,19 @@ public class SettingsActivity extends AppCompatActivity implements SensorEventLi
         }
     }
 
+    private String decleareWinnerAndLoser() {
+        if (randomNumber1 > randomNumber2) {
+            return player1Name;
+        } else if (randomNumber2 > randomNumber1) {
+            return player2Name;
+        } else {
+            return "It's a Draw, you can play again";
+        }
+    }
+
     private void goToFinalActivity() {
         Intent intent = new Intent(this, FinalActivity.class);
+        intent.putExtra("Winner-Loser", decleareWinnerAndLoser());
         startActivity(intent);
     }
 
