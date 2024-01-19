@@ -83,28 +83,32 @@ public class SettingsActivity extends AppCompatActivity implements SensorEventLi
         randomNumberTextView.setText(String.valueOf(randomNumber1 + " - " + randomNumber2));
     }
 
+    boolean hasShaken = false;
+
     @Override
     public void onSensorChanged(SensorEvent event) {
-        float x = event.values[0];
-        float y = event.values[1];
-        float z = event.values[2];
+        if (!hasShaken) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
 
-        boolean hasShaken = false;
+            double acceleration = Math.sqrt(x * x + y * y + z * z);
+            if (acceleration > 15) {
+                hasShaken = true;
+                generateRandomNumbers();
+                updateUI();
 
-        double acceleration = Math.sqrt(x * x + y * y + z * z);
-        if (acceleration > 15) {
-            hasShaken = true;
-            generateRandomNumbers();
-            updateUI();
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    goToFinalActivity();
-                }
-            }, 3000);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        goToFinalActivity();
+                        hasShaken = false;
+                    }
+                }, 3000);
+            }
         }
     }
+
 
     private void goToFinalActivity() {
         Intent intent = new Intent(this, FinalActivity.class);
@@ -114,5 +118,4 @@ public class SettingsActivity extends AppCompatActivity implements SensorEventLi
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
-
 }
