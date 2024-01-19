@@ -20,6 +20,7 @@ public class FinalActivity extends AppCompatActivity {
         TextView winnerTextView = findViewById(R.id.winnerTextView);
         winnerTextView.setText("Winner: " + winner);
 
+
         replayButton = findViewById(R.id.replayButton);
         replayButton.setOnClickListener(new View.OnClickListener() {
             @Override

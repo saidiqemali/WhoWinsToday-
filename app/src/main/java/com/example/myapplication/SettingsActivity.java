@@ -77,20 +77,22 @@ public class SettingsActivity extends AppCompatActivity implements SensorEventLi
 
     boolean hasShaken = false;
 
+    int repeatIndex = -1;
+
+
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (!hasShaken) {
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
-
             double acceleration = Math.sqrt(x * x + y * y + z * z);
+
             if (acceleration > 30) {
                 hasShaken = true;
                 isShaking = true; // bool that looks if phone is shaking for later for the vibration
                 generateRandomNumbers();
                 updateDatas();
-
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -99,16 +101,13 @@ public class SettingsActivity extends AppCompatActivity implements SensorEventLi
                         hasShaken = false;
                     }
                 }, 3000);
-
                 if (isShaking) {
                     long[] timings = new long[] { 50, 50, 50, 50, 50, 100, 350, 250 };
                     int[] amplitudes = new int[] { 150, 150, 150, 150, 150, 150, 150, 150 };
-                    int repeatIndex = -1;
                     Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         vibrator.vibrate(VibrationEffect.createWaveform(timings, amplitudes, repeatIndex));
-                    }
-                        // Code von : https://developer.android.com/develop/ui/views/haptics/actuators#java
+                    } // Code von : https://developer.android.com/develop/ui/views/haptics/actuators#java
                 }
             }
         }
