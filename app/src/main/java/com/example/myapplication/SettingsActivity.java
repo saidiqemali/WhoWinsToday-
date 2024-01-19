@@ -6,6 +6,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.VibrationEffect;
@@ -55,7 +56,6 @@ public class SettingsActivity extends AppCompatActivity implements SensorEventLi
         player1PointsTextView = findViewById(R.id.player1Points);
         player2PointsTextView = findViewById(R.id.player2Points);
         randomNumberTextView = findViewById(R.id.randomNumber);
-        currentPlayerTextView = findViewById(R.id.currentPlayer);
         isShakingTextView = findViewById(R.id.isShaking);
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -92,7 +92,7 @@ public class SettingsActivity extends AppCompatActivity implements SensorEventLi
             float z = event.values[2];
 
             double acceleration = Math.sqrt(x * x + y * y + z * z);
-            if (acceleration > 15) {
+            if (acceleration > 30) {
                 hasShaken = true;
                 isShaking = true; // bool that looks if phone is shaking for later for the vibration
                 generateRandomNumbers();
@@ -106,6 +106,17 @@ public class SettingsActivity extends AppCompatActivity implements SensorEventLi
                         hasShaken = false;
                     }
                 }, 3000);
+
+                if (isShaking) {
+                    long[] timings = new long[] { 50, 50, 50, 50, 50, 100, 350, 250 };
+                    int[] amplitudes = new int[] { 150, 150, 150, 150, 150, 150, 150, 150 };
+                    int repeatIndex = -1;
+                    Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        vibrator.vibrate(VibrationEffect.createWaveform(timings, amplitudes, repeatIndex));
+                    }
+
+                }
             }
         }
     }
