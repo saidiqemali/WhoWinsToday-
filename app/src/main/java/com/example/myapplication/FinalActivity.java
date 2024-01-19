@@ -1,4 +1,4 @@
-package com.example.myapplication;// FinalActivity.java
+package com.example.myapplication;
 import android.os.Bundle;
 import android.widget.TextView;
 

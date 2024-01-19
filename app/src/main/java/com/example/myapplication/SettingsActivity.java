@@ -28,11 +28,8 @@ public class SettingsActivity extends AppCompatActivity implements SensorEventLi
     private TextView player1PointsTextView;
     private TextView player2PointsTextView;
     private TextView randomNumberTextView;
-    private TextView currentPlayerTextView;
     private TextView isShakingTextView;
 
-    private int player1Points = 0;
-    private int player2Points = 0;
     private int randomNumber1 = 0;
     private int randomNumber2 = 0;
 
@@ -40,7 +37,6 @@ public class SettingsActivity extends AppCompatActivity implements SensorEventLi
     private Sensor accelerometer;
 
     private boolean isShaking = false;
-    private int shakeCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
